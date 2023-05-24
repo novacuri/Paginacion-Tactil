@@ -1,0 +1,52 @@
+* {
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+}
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .cards {
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    width: 100%;
+    padding: 20px;
+    margin-bottom: 20px;
+    -webkit-overflow-scrolling: touch; /* Propiedad específica para desplazamiento táctil en iOS */
+  }
+  
+  .card {
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin-right: 10px;
+    width: 200px;
+  }
+  
+  .pagination {
+    display: flex;
+  }
+  
+  .prev,
+  .next {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+  }
+  
+  .prev:hover,
+  .next:hover {
+    background-color: #45a049;
+  }

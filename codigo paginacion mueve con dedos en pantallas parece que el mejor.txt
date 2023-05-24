@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Paginación de Tarjetas con Desplazamiento Táctil</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="cards">
+      <div class="card">Tarjeta 1</div>
+      <div class="card">Tarjeta 2</div>
+      <div class="card">Tarjeta 3</div>
+      <div class="card">Tarjeta 4</div>
+      <div class="card">Tarjeta 5</div>
+    </div>
+    <div class="pagination">
+      <button class="prev">&lt;</button>
+      <button class="next">&gt;</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+-----------------------
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cards {
+  display: flex;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  width: 100%;
+  padding: 20px;
+  margin-bottom: 20px;
+  -webkit-overflow-scrolling: touch; /* Propiedad específica para desplazamiento táctil en iOS */
+}
+
+.card {
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin-right: 10px;
+  width: 200px;
+}
+
+.pagination {
+  display: flex;
+}
+
+.prev,
+.next {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.prev:hover,
+.next:hover {
+  background-color: #45a049;
+}
+
+
+----------------------
+
+document.addEventListener("DOMContentLoaded", function(event) {
+  const cardsContainer = document.querySelector('.cards');
+  const prevButton = document.querySelector('.prev');
+  const nextButton = document.querySelector('.next');
+  let scrollAmount = 0;
+  let touchStartX = 0;
+
+  prevButton.addEventListener('click', function() {
+    cardsContainer.scrollTo({
+      top: 0,
+      left: (scrollAmount -= 300),
+      behavior: 'smooth'
+    });
+
+    if (scrollAmount < 0) {
+      scrollAmount = 0;
+    }
+  });
+
+  nextButton.addEventListener('click', function() {
+    if (scrollAmount <= cardsContainer.scrollWidth - cardsContainer.clientWidth) {
+      cardsContainer.scrollTo({
+        top: 0,
+        left: (scrollAmount += 300),
+        behavior: 'smooth'
+      });
+    }
+  });
+
+  cardsContainer.addEventListener('touchstart', function(event) {
+    touchStartX = event.touches[0].clientX;
+  });
+
+  cardsContainer.addEventListener('touchmove', function(event) {
+    const touchMoveX = event.touches[0].clientX;
+    const swipeDistance = touchStartX - touchMoveX;
+
+    cardsContainer.scrollLeft += swipeDistance;
+  });
+
+  cardsContainer.addEventListener('touchend', function(event) {
+    touchStartX = 0;
+    scrollAmount = cardsContainer.scrollLeft;
+  });
+});
+
++++++++++++++++++++++++++++++++++
+En este ejemplo, hemos agregado algunos eventos táctiles adicionales para permitir el desplazamiento táctil de las tarjetas en pantallas táctiles.
+
+En el archivo HTML y CSS, no hay cambios con respecto al ejemplo anterior. Sin embargo, en el archivo JavaScript, hemos agregado tres nuevos eventos táctiles: touchstart, touchmove y touchend.
+
+El evento touchstart se dispara cuando se toca la pantalla. Almacenamos la posición inicial del toque (clientX) en la variable touchStartX.
+El evento touchmove se dispara cuando se arrastra el dedo sobre la pantalla. Calculamos la distancia del desplazamiento (swipeDistance) restando la posición inicial del toque de la posición actual (clientX). Luego, actualizamos el desplazamiento horizontal de las tarjetas (scrollLeft) agregando la distancia del desplazamiento.
+El evento touchend se dispara cuando se levanta el dedo de la pantalla. Reiniciamos la posición inicial del toque (touchStartX) a 0 y actualizamos el valor de desplazamiento (scrollAmount) con el desplazamiento horizontal actual de las tarjetas.
+Estos eventos táctiles permiten el desplazamiento táctil de las tarjetas de derecha a izquierda en pantallas táctiles como tabletas y celulares.
+
+Espero que esto satisfaga tus necesidades. Si tienes alguna otra pregunta, no dudes en preguntar.
+
+
+
+
